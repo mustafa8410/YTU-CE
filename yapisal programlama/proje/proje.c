@@ -19,11 +19,14 @@ typedef struct{
     char *user;
 }highScores;
 
-void importUsers(FILE *file, int *userCount, user *users){
-    while(fread(&users[*userCount], sizeof(user),1, file)){
-    *userCount = *userCount + 1;
+void importUsers(int *userCount, user *users){
+    FILE *userFile = fopen("users.bin", "ab+");
+    while(!feof(userFile)){
+        fread(&users[(*userCount)],sizeof(user),1,userFile);
+        *userCount = *userCount + 1;
     }
-    }
+    fclose(userFile);
+}
 
 
 int login(user *users, int totalUsers){
@@ -34,7 +37,7 @@ int login(user *users, int totalUsers){
     printf("Password: "); scanf(" %s", password);
     while(flag == 0 && i < totalUsers){
         if(strcmp(users[i].username, username) == 0 && strcmp(users[i].password,password) == 0){
-            printf("Welcome %s %s.", users[i].name,users[i].surname);
+            printf("Welcome %s %s.\n", users[i].name,users[i].surname);
             flag=1;
         }i++;
     }
@@ -56,9 +59,13 @@ void signUp(int *totalUsers, user *users){
 
 }
 
-void saveNewUsers(FILE *userFile, user *users, int userCount, int totalUsers){
+void saveNewUsers(user *users, int userCount,int totalUsers){
     int i;
-    for(i=userCount;i<totalUsers;i++) fwrite(&users[i],sizeof(user),1,userFile);
+    FILE *userFile = fopen("users.bin","ab");
+    for(i=userCount;i<totalUsers;i++){
+        fwrite(&users[i],sizeof(user),1,userFile);
+    }
+    fclose(userFile);
 }
 
 
@@ -67,10 +74,10 @@ int main(){
     user *users;
     //allocating memory for users and it's fields
     users = (user*) malloc(MAX_USER * sizeof(user));
-    FILE *userFile = fopen("users.bin", "rb+");
+    // FILE *userFile = fopen("users.bin", "rb+");
     
-    importUsers(userFile,&userCount,users); totalUsers = userCount;
-    fclose(userFile);
+    importUsers(&userCount,users); totalUsers = userCount;
+    // fclose(userFile);
 
     do{
         printf("\nEnter 1 to login, 2 to create a new account: ");
@@ -89,10 +96,8 @@ int main(){
             break;
         }
     }while(loggedIn!=1);
-    printf("%d",totalUsers);
-
-    userFile = fopen("users.bin","ab+");
-    saveNewUsers(userFile,users,userCount,totalUsers);
-    fclose(userFile);
+    // printf("%d",totalUsers);
+    saveNewUsers(users,userCount,totalUsers);
+    printf("Please give an input to close the program: "); scanf("%d",&decision);
     return 0;
 }

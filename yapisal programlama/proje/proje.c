@@ -3,11 +3,13 @@
 #include <time.h>
 #include <string.h>
 #include <stddef.h>
+#include <unistd.h>
 #define MAX_USER 20
 #define HIGH_SCORE 5
 #define LENGTH 20
 #define MAX_SIZE 6
 #define MAX_BOARD_SIZE 16
+#define MAX_ELEMENT 10
 
 typedef struct{
     char name[LENGTH];
@@ -86,7 +88,7 @@ int mainMenu(){
     int decision;
     printf("\n\n\n\n---------Main Menu---------\n\n"); 
     do{
-    printf("1-High Scores\n2-How to play\n3-Play\n4-Exit");
+    printf("1-High Scores\n2-How to play\n3-Play\n4-Exit: ");
     scanf("%d",&decision);
     if(decision < 1 || decision > 4) printf("Invalid input!");
     }while(decision < 1 || decision > 4);
@@ -96,6 +98,7 @@ int mainMenu(){
 
 char** readMatrix(char *fileName,int* r, int* c){
     FILE *file = fopen(fileName,"r");
+    *r = 0; *c = 0;
     char buff[MAX_BOARD_SIZE];
     char** matrix;
     int row=0,column=0,i,j;
@@ -147,12 +150,53 @@ void showHighScores(highScore *highScores, int highScoreCount){
 
 void howToPlay(){}
 
+void findX(int *cRow,int * cColumn, char **board,int row,int column){
+    int i=0,j=0;
+    while(i < row && board[i][j] != 'X'){
+        while(j<column && board[i][j] != 'X'){
+            j++;
+        }
+        j=0;
+        i++;
+    }
+    *cRow = i; *cColumn = j;
+}
+
+/*void findC(int *eRow,int * eColumn, char **board,int row,int column){
+    int i=0,j=0;
+    while(i < row && board[i][j] != 'C'){
+        while(j<column && board[i][j] != 'C'){
+            j++;
+        }
+        j=0;
+        i++;
+    }
+    *eRow = i; *eColumn = j;
+} */
+
+void manualPlay(char **board,int row, int column){ //sag ok 77, sol ok 75, yukari 72, aşagi 80
+
+    int i,j;
+    char collectedElements[MAX_ELEMENT],currentLocation = 'G';
+    int score, currentRow, currentColumn, elementCount=0, moveCount=0;   //int exitRow,exitColumn;
+    findX(&currentRow,&currentColumn,board,row,column); //findC(&exitRow,&exitColumn,board,row,column);
+    while(board[currentRow][currentLocation] != 'C'){
+    printf("\n"); printMatrix(board,row,column);
+    printf("\n\nYou are currently at %d x %d.\n",currentRow,currentColumn); printf("Collected elements: ");
+    for(i=0;i<elementCount;i++) printf("%c ",collectedElements[i]);
+    
+    
+    
+    }
+    
+}
+void autoPlay(){}
 
 void play(user player, highScore *highScores){
     int choice,row,column;
     char **board, fileName[LENGTH];
     do{
-    printf("Do you want to play in one of the official boards, or import one?\n1-Official board\t2-Import :");
+    printf("Do you want to play in one of the official boards, or import one?\n1-Official board\t2-Import : ");
     scanf("%d",&choice);
     while(choice < 1 || choice > 2){
         printf("Please give a valid input.\n1-Official board\t2-Import :");
@@ -160,19 +204,66 @@ void play(user player, highScore *highScores){
     }
     switch(choice){
         case 1:
+        printf("Please provide with a choice of these boards:\n");
+        int boardChoice;
+
         board = readMatrix("map1.txt",&row,&column);
-        printMatrix(board,row,column);
-        break;
+        printf("1)\n"); printMatrix(board,row,column); 
+        board = readMatrix("map2.txt",&row,&column);
+        printf("\n2)\n"); printMatrix(board,row,column);
+        board = readMatrix("map3.txt",&row,&column);
+        printf("\n3)\n"); printMatrix(board,row,column);
+        board = readMatrix("map4.txt",&row,&column);
+        printf("\n4)\n"); printMatrix(board,row,column);
+        board = readMatrix("map5.txt",&row,&column);
+        printf("\n5)\n"); printMatrix(board,row,column); printf("\n");
+        do{
+            printf("Your choice: "); scanf("%d",&boardChoice);
+            if(boardChoice < 1 || boardChoice > 5) printf("Please provide a valid input.\n\n");
+        }while(boardChoice < 1 || boardChoice > 5); printf("Selected map %d.\n",boardChoice);
+
+        switch (boardChoice){
+            case 1:
+            board = readMatrix("map1.txt",&row,&column);
+            break;
+            case 2:
+            board = readMatrix("map2.txt",&row,&column);
+            break;
+            case 3:
+            board = readMatrix("map3.txt",&row,&column);
+            break;
+            case 4:
+            board = readMatrix("map4.txt",&row,&column);
+            break;
+            case 5:
+            board = readMatrix("map5.txt",&row,&column);
+            break;
+        }
         case 2:
         printf("To create a game board, simply write the board elements like they're displayed normally without any space between in a .txt file, and place the file in the same folder as the game's .exe file.\nThe name of the .txt file you created: ");
         scanf(" %s",fileName);
         board = readMatrix(fileName,&row,&column);
-
     }
     }while(board == NULL);
+    printf("\n\n1-Manual Play\n2-Auto Play(unavailable)\n");
+    scanf("%d",&choice);
+    while(choice != 1 || choice != 2){
+        printf("Invalid input. Please provide a valid one. 1 for manual play, 2 for auto play(unavailable): ");
+        scanf("%d",&choice);
+    }
+    switch(choice){
+        case 1:
+        manualPlay(board,row,column);break;
+        case 2:
+        autoPlay();break;
+
+    }
+
+
 }
 
-//0: yol 1:duvar 2: P+ 3: P- 4: E- 5: e+ 6: X 7: K 8: G 9:Ç
+
+
 int main(){
     int i,decision, userCount=0,totalUsers=0,loggedIn,highScoreCount;
     user *users, currentPlayer; highScore highScores[HIGH_SCORE];

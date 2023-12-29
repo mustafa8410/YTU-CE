@@ -7,6 +7,7 @@
 #define HIGH_SCORE 5
 #define LENGTH 20
 #define MAX_SIZE 6
+#define MAX_BOARD_SIZE 16
 
 typedef struct{
     char name[LENGTH];
@@ -93,7 +94,47 @@ int mainMenu(){
     return decision;
 }
 
+char** readMatrix(char *fileName,int* r, int* c){
+    FILE *file = fopen(fileName,"r");
+    char buff[MAX_BOARD_SIZE];
+    char** matrix;
+    int row=0,column=0,i,j;
+    if(fgets(buff,sizeof(buff),file) != NULL){
+        row++; column = strlen(buff);
+        matrix = (char**) malloc(sizeof(char*));
+        matrix[0] = (char*) malloc(column * sizeof(char));
+        strcpy(matrix[0],buff);
+    }else{
+        printf("There's not a file named %s. Please try again.\n",*fileName);
+        return NULL;
+    }
+    while(fgets(buff,sizeof(buff),file) != NULL){
+        row++;
+        matrix = realloc(matrix,row * sizeof(char*));
+        matrix[row - 1] = (char *)malloc(column * sizeof(char));
+        strcpy(matrix[row-1],buff);
+    }
+    //if newline char is added to the matrix by accident, fix it.
+    for(i=0;i<row;i++) matrix[i][strcspn(matrix[i],"\n")] = '\0';
+    *r = row;
+    *c = column;
+    
+    return matrix;
+}
 
+void printMatrix(char** matrix,int row,int column){
+    int i,j,k;
+    for(i=0;i<row;i++){
+        for(k=0;k<column-1;k++) printf("----");
+        printf("\n");
+        for(j=0;j<column-1;j++){
+            printf(" %c |",matrix[i][j]);
+            
+        }
+        printf("\n");
+    }
+    for(k=0;k<column-1;k++) printf("----");
+}
 
 
 
@@ -107,12 +148,34 @@ void showHighScores(highScore *highScores, int highScoreCount){
 void howToPlay(){}
 
 
-void play(user player, highScore *highScores){}
+void play(user player, highScore *highScores){
+    int choice,row,column;
+    char **board, fileName[LENGTH];
+    do{
+    printf("Do you want to play in one of the official boards, or import one?\n1-Official board\t2-Import :");
+    scanf("%d",&choice);
+    while(choice < 1 || choice > 2){
+        printf("Please give a valid input.\n1-Official board\t2-Import :");
+        scanf("%d",&choice);
+    }
+    switch(choice){
+        case 1:
+        board = readMatrix("map1.txt",&row,&column);
+        printMatrix(board,row,column);
+        break;
+        case 2:
+        printf("To create a game board, simply write the board elements like they're displayed normally without any space between in a .txt file, and place the file in the same folder as the game's .exe file.\nThe name of the .txt file you created: ");
+        scanf(" %s",fileName);
+        board = readMatrix(fileName,&row,&column);
+
+    }
+    }while(board == NULL);
+}
 
 //0: yol 1:duvar 2: P+ 3: P- 4: E- 5: e+ 6: X 7: K 8: G 9:Ç
 int main(){
     int i,decision, userCount=0,totalUsers=0,loggedIn,highScoreCount;
-    user *users, currentPlayer; highScore *highScores[HIGH_SCORE];
+    user *users, currentPlayer; highScore highScores[HIGH_SCORE];
     users = (user*) malloc(MAX_USER * sizeof(user));
     // FILE *userFile = fopen("users.bin", "rb+");
 
@@ -123,11 +186,12 @@ int main(){
     do{
         printf("\nEnter 1 to login, 2 to create a new account: ");
         scanf("%d",&decision);
+        system("cls");
     
         switch(decision){
             case 1:
             if(totalUsers==0)
-            printf("There are no users right now. Please create a new account.");
+            printf("There are no users right now. Please create a new account.\n");
             else
             loggedIn = login(users,totalUsers,&currentPlayer);
             break;
@@ -140,13 +204,14 @@ int main(){
 
     do{
     decision = mainMenu();
+    system("cls");
     switch(decision){
         case 1:
         showHighScores(highScores,highScoreCount);break;
         case 2:
         howToPlay();break;
         case 3:
-        //play();
+        play(currentPlayer,highScores);
         
         break;
     }

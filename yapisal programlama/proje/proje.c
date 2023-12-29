@@ -247,7 +247,7 @@ void play(user player, highScore *highScores){
     }while(board == NULL);
     printf("\n\n1-Manual Play\n2-Auto Play(unavailable)\n");
     scanf("%d",&choice);
-    while(choice != 1 || choice != 2){
+    while(choice != 1 && choice != 2){
         printf("Invalid input. Please provide a valid one. 1 for manual play, 2 for auto play(unavailable): ");
         scanf("%d",&choice);
     }

@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stddef.h>
 #include <unistd.h>
+#include <conio.h>
 #define MAX_USER 20
 #define HIGH_SCORE 5
 #define LENGTH 20
@@ -152,14 +153,26 @@ void howToPlay(){}
 
 void findX(int *cRow,int * cColumn, char **board,int row,int column){
     int i=0,j=0;
-    while(i < row && board[i][j] != 'X'){
-        while(j<column && board[i][j] != 'X'){
+    *cRow = -1; *cColumn = -1;
+    while(i < row){
+        j=0;
+        while(j<column){
+            if(board[i][j] == 'X'){
+                *cRow = i; *cColumn = j; return;
+            }
             j++;
         }
-        j=0;
         i++;
     }
-    *cRow = i; *cColumn = j;
+}
+
+void prepareForNextMove(char **board,char *currentLocation,int cRow,int cColumn, char* collectedElements,int *elementCount){
+    *currentLocation = board[cRow][cColumn]; board[cRow][cColumn] = 'X';
+    if((*currentLocation) != '0'){
+        collectedElements[*elementCount] = *currentLocation;
+        *elementCount = *elementCount + 1;
+        *currentLocation = '0';
+    }
 }
 
 /*void findC(int *eRow,int * eColumn, char **board,int row,int column){
@@ -177,15 +190,56 @@ void findX(int *cRow,int * cColumn, char **board,int row,int column){
 void manualPlay(char **board,int row, int column){ //sag ok 77, sol ok 75, yukari 72, aşagi 80
 
     int i,j;
-    char collectedElements[MAX_ELEMENT],currentLocation = 'G';
-    int score, currentRow, currentColumn, elementCount=0, moveCount=0;   //int exitRow,exitColumn;
+    char collectedElements[MAX_ELEMENT],currentLocation = 'G', a;
+    int score, currentRow, currentColumn, elementCount=0, moveCount=0,invalid;   //int exitRow,exitColumn;
     findX(&currentRow,&currentColumn,board,row,column); //findC(&exitRow,&exitColumn,board,row,column);
-    while(board[currentRow][currentLocation] != 'C'){
+    while(currentLocation != 'C' && currentLocation != 'K'){
     printf("\n"); printMatrix(board,row,column);
     printf("\n\nYou are currently at %d x %d.\n",currentRow,currentColumn); printf("Collected elements: ");
-    for(i=0;i<elementCount;i++) printf("%c ",collectedElements[i]);
-    
-    
+    for(i=0;i<elementCount;i++) printf("%c ",collectedElements[i]); printf("\n");
+
+    a = getch(); if(a==27){printf("Exiting the game with 0 score.\n");return;}
+    else{
+        a=getch();
+        switch (a){
+            case 77:
+            if((currentColumn + 1) >= (column-1) || board[currentRow][currentColumn+1] == '1'){printf("Invalid move!\n");invalid++;}
+            else{
+                moveCount++;
+                board[currentRow][currentColumn] = currentLocation;
+                currentColumn++;
+                prepareForNextMove(board,&currentLocation,currentRow,currentColumn,collectedElements,&elementCount);
+            }
+            break;
+            case 75:
+            if((currentColumn - 1) < 0 || board[currentRow][currentColumn-1] == '1'){printf("Invalid move!\n");invalid++;}
+            else{
+                moveCount++;
+                board[currentRow][currentColumn] = currentLocation;
+                currentColumn--;
+                prepareForNextMove(board,&currentLocation,currentRow,currentColumn,collectedElements,&elementCount);
+            }
+            break;
+            case 72:
+            if((currentRow - 1) < 0 || board[currentRow-1][currentColumn] == '1'){printf("Invalid move!\n");invalid++;}
+            else{
+                moveCount++;
+                board[currentRow][currentColumn] = currentLocation;
+                currentRow--;
+                prepareForNextMove(board,&currentLocation,currentRow,currentColumn,collectedElements,&elementCount);
+            }
+            break;
+            case 80:
+            if((currentRow + 1) >= row || board[currentRow+1][currentColumn] == '1'){printf("Invalid move!\n");invalid++;}
+            else{
+                moveCount++;
+                board[currentRow][currentColumn] = currentLocation;
+                currentRow++;
+                prepareForNextMove(board,&currentLocation,currentRow,currentColumn,collectedElements,&elementCount);
+            }
+            break;
+        }
+    }
     
     }
     
@@ -193,7 +247,7 @@ void manualPlay(char **board,int row, int column){ //sag ok 77, sol ok 75, yukar
 void autoPlay(){}
 
 void play(user player, highScore *highScores){
-    int choice,row,column;
+    int choice,row,column,i;
     char **board, fileName[LENGTH];
     do{
     printf("Do you want to play in one of the official boards, or import one?\n1-Official board\t2-Import : ");
@@ -208,15 +262,15 @@ void play(user player, highScore *highScores){
         int boardChoice;
 
         board = readMatrix("map1.txt",&row,&column);
-        printf("1)\n"); printMatrix(board,row,column); 
+        printf("1)\n"); printMatrix(board,row,column); for(i=0;i<row;i++) free(board[i]); free(board);
         board = readMatrix("map2.txt",&row,&column);
-        printf("\n2)\n"); printMatrix(board,row,column);
+        printf("\n2)\n"); printMatrix(board,row,column);for(i=0;i<row;i++) free(board[i]); free(board);
         board = readMatrix("map3.txt",&row,&column);
-        printf("\n3)\n"); printMatrix(board,row,column);
+        printf("\n3)\n"); printMatrix(board,row,column);for(i=0;i<row;i++) free(board[i]); free(board);
         board = readMatrix("map4.txt",&row,&column);
-        printf("\n4)\n"); printMatrix(board,row,column);
+        printf("\n4)\n"); printMatrix(board,row,column);for(i=0;i<row;i++) free(board[i]); free(board);
         board = readMatrix("map5.txt",&row,&column);
-        printf("\n5)\n"); printMatrix(board,row,column); printf("\n");
+        printf("\n5)\n"); printMatrix(board,row,column); printf("\n");for(i=0;i<row;i++) free(board[i]); free(board);
         do{
             printf("Your choice: "); scanf("%d",&boardChoice);
             if(boardChoice < 1 || boardChoice > 5) printf("Please provide a valid input.\n\n");
@@ -247,7 +301,7 @@ void play(user player, highScore *highScores){
     }while(board == NULL);
     printf("\n\n1-Manual Play\n2-Auto Play(unavailable)\n");
     scanf("%d",&choice);
-    while(choice != 1 || choice != 2){
+    while(choice != 1 && choice != 2){
         printf("Invalid input. Please provide a valid one. 1 for manual play, 2 for auto play(unavailable): ");
         scanf("%d",&choice);
     }

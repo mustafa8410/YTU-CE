@@ -210,20 +210,17 @@ void newHighScore(int score,int *highScoreCount,highScore* highScores,user playe
         while (i<(*highScoreCount)){
             if(score < highScores[i].score)
                 i++;
+        }
+        for(j=(*highScoreCount);j>i;j--){
+            if(j==5){}
             else{
-                for(j=(*highScoreCount);j>i;j--){
-                    if(j==5){}
-                    else{
-                    highScores[j] = highScores[j-1];
-                    }
-                }
-                strcpy(highScores[i].username,player.username);
-                highScores[i].score = score;
-                if((*highScoreCount) < 5) (*highScoreCount) = (*highScoreCount) + 1;
-                printf("Congratulations, you scored a highscore! Your score is the best %d'th highscore.\n",(i+1));
-
+            highScores[j] = highScores[j-1];
             }
         }
+        strcpy(highScores[i].username,player.username);
+        highScores[i].score = score;
+        if((*highScoreCount) < 5) (*highScoreCount) = (*highScoreCount) + 1;
+        printf("Congratulations, you scored a highscore! Your score is the number %d highscore.\n",(i+1));
 
 }
 

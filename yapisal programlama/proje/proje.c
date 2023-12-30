@@ -167,12 +167,30 @@ void findX(int *cRow,int * cColumn, char **board,int row,int column){
 }
 
 void prepareForNextMove(char **board,char *currentLocation,int cRow,int cColumn, char* collectedElements,int *elementCount){
-    *currentLocation = board[cRow][cColumn]; board[cRow][cColumn] = 'X';
-    if((*currentLocation) != '0'){
+    board[cRow][cColumn] = 'X';
+    if((*currentLocation) != '0' && (*currentLocation) != 'G' && (*currentLocation) != 'C' && (*currentLocation) != 'K' ){
         collectedElements[*elementCount] = *currentLocation;
         *elementCount = *elementCount + 1;
         *currentLocation = '0';
     }
+}
+
+int calculateCreatedAntiMaterialNumber(char* collectedElements,int elementCount){
+    int i=0,pCount=0,Ecount=0,created=0;
+    while(i<elementCount){
+        if(collectedElements[i] == 'p') pCount++;
+        else if(collectedElements[i] == 'E') Ecount++;
+        else{
+            printf("You have to have only p or E to win the game!\n");
+            return 0;
+        }
+        i++;
+
+    }
+    if(pCount < Ecount) created = pCount;
+    else created=Ecount;
+    return created;
+
 }
 
 /*void findC(int *eRow,int * eColumn, char **board,int row,int column){
@@ -187,11 +205,33 @@ void prepareForNextMove(char **board,char *currentLocation,int cRow,int cColumn,
     *eRow = i; *eColumn = j;
 } */
 
-void manualPlay(char **board,int row, int column){ //sag ok 77, sol ok 75, yukari 72, aşagi 80
+void newHighScore(int score,int *highScoreCount,highScore* highScores,user player){
+    int i=0,j;
+        while (i<(*highScoreCount)){
+            if(score < highScores[i].score)
+                i++;
+            else{
+                for(j=(*highScoreCount);j>i;j--){
+                    if(j==5){}
+                    else{
+                    highScores[j] = highScores[j-1];
+                    }
+                }
+                strcpy(highScores[i].username,player.username);
+                highScores[i].score = score;
+                if((*highScoreCount) < 5) (*highScoreCount) = (*highScoreCount) + 1;
+                printf("Congratulations, you scored a highscore! Your score is the best %d'th highscore.\n",(i+1));
+
+            }
+        }
+
+}
+
+void manualPlay(char **board,int row, int column,int highScoreCount, user player, highScore *highScores){ //sag ok 77, sol ok 75, yukari 72, aşagi 80
 
     int i,j;
     char collectedElements[MAX_ELEMENT],currentLocation = 'G', a;
-    int score, currentRow, currentColumn, elementCount=0, moveCount=0,invalid;   //int exitRow,exitColumn;
+    int score, currentRow, currentColumn, elementCount=0, moveCount=0,invalid=0,createdMaterials;   //int exitRow,exitColumn;
     findX(&currentRow,&currentColumn,board,row,column); //findC(&exitRow,&exitColumn,board,row,column);
     while(currentLocation != 'C' && currentLocation != 'K'){
     printf("\n"); printMatrix(board,row,column);
@@ -208,6 +248,7 @@ void manualPlay(char **board,int row, int column){ //sag ok 77, sol ok 75, yukar
                 moveCount++;
                 board[currentRow][currentColumn] = currentLocation;
                 currentColumn++;
+                currentLocation = board[currentRow][currentColumn];
                 prepareForNextMove(board,&currentLocation,currentRow,currentColumn,collectedElements,&elementCount);
             }
             break;
@@ -217,6 +258,7 @@ void manualPlay(char **board,int row, int column){ //sag ok 77, sol ok 75, yukar
                 moveCount++;
                 board[currentRow][currentColumn] = currentLocation;
                 currentColumn--;
+                currentLocation = board[currentRow][currentColumn];
                 prepareForNextMove(board,&currentLocation,currentRow,currentColumn,collectedElements,&elementCount);
             }
             break;
@@ -226,6 +268,7 @@ void manualPlay(char **board,int row, int column){ //sag ok 77, sol ok 75, yukar
                 moveCount++;
                 board[currentRow][currentColumn] = currentLocation;
                 currentRow--;
+                currentLocation = board[currentRow][currentColumn];
                 prepareForNextMove(board,&currentLocation,currentRow,currentColumn,collectedElements,&elementCount);
             }
             break;
@@ -235,20 +278,37 @@ void manualPlay(char **board,int row, int column){ //sag ok 77, sol ok 75, yukar
                 moveCount++;
                 board[currentRow][currentColumn] = currentLocation;
                 currentRow++;
+                currentLocation = board[currentRow][currentColumn];
                 prepareForNextMove(board,&currentLocation,currentRow,currentColumn,collectedElements,&elementCount);
             }
             break;
         }
+
+        sleep(1);system("cls");
     }
     
-    }
+    }//while end
+
     
+    if(currentLocation == 'C'){
+        printf("You have reached to the exit.\n");
+        createdMaterials = calculateCreatedAntiMaterialNumber(collectedElements,elementCount);
+        printf("You have managed to create %d materials.\n",createdMaterials);
+        score = (200*createdMaterials) - (invalid * 10) - (moveCount * 2);
+        printf("Your score: %d\n",score);
+        newHighScore(score,&highScoreCount,highScores,player);
+    }
+    else{
+        score=0;
+        printf("You've entered into a black hole and lost.\n");
+    }
 }
 void autoPlay(){}
 
-void play(user player, highScore *highScores){
-    int choice,row,column,i;
+void play(user player, highScore *highScores,int highScoreCount){
+    int choice,row,column,i,game=1;
     char **board, fileName[LENGTH];
+    while(game==1){
     do{
     printf("Do you want to play in one of the official boards, or import one?\n1-Official board\t2-Import : ");
     scanf("%d",&choice);
@@ -307,9 +367,15 @@ void play(user player, highScore *highScores){
     }
     switch(choice){
         case 1:
-        manualPlay(board,row,column);break;
+        manualPlay(board,row,column,highScoreCount,player,highScores);
+        printf("If you want to play again, enter 1. Otherwise, enter any input else: ");
+        scanf("%d",&game);
+        
+        break;
         case 2:
         autoPlay();break;
+
+    }
 
     }
 
@@ -356,7 +422,7 @@ int main(){
         case 2:
         howToPlay();break;
         case 3:
-        play(currentPlayer,highScores);
+        play(currentPlayer,highScores,highScoreCount);
         
         break;
     }

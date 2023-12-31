@@ -26,21 +26,23 @@ typedef struct{
 
 void importUsers(int *userCount, user *users){
     FILE *userFile = fopen("users.bin", "ab+");
-    while(!feof(userFile)){
-        fread(&users[(*userCount)],sizeof(user),1,userFile);
+    while(fread(&users[(*userCount)],sizeof(user),1,userFile)){
+        
         *userCount = *userCount + 1;
     }
     fclose(userFile);
 }
 
 void importHighScores(highScore *highScores,int *highScoreCount){
-    FILE *scoreFile = fopen("highScores.bin","ab+");
+    FILE *scoreFile = fopen("highScores.bin","rb");
     int count=0,i;
-    while(!feof(scoreFile)){
-        fread(&highScores[count],sizeof(highScore),1,scoreFile);
+    if(scoreFile == NULL) return;
+    while(fread(&highScores[count],sizeof(highScore),1,scoreFile)){
         count++;
     }
     *highScoreCount = count;
+
+    fclose(scoreFile);
 }
 
 
@@ -85,9 +87,17 @@ void saveNewUsers(user *users, int userCount,int totalUsers){
     fclose(userFile);
 }
 
+void saveHighScores(highScore *highScores,int highScoreCount){
+    FILE *scoreFile = fopen("highScores.bin","wb"); int i;
+    for(i=0;i<highScoreCount;i++){
+        fwrite(&highScores[i],sizeof(highScore),1,scoreFile);
+    }
+    fclose(scoreFile);
+}
+
 int mainMenu(){
     int decision;
-    printf("\n\n\n\n---------Main Menu---------\n\n"); 
+    printf("n---------Main Menu---------\n\n"); 
     do{
     printf("1-High Scores\n2-How to play\n3-Play\n4-Exit: ");
     scanf("%d",&decision);
@@ -144,12 +154,19 @@ void printMatrix(char** matrix,int row,int column){
 
 void showHighScores(highScore *highScores, int highScoreCount){
     int i;
+    printf("There are %d highscores.\n\n",highScoreCount);
     for(i=0;i<highScoreCount;i++){
-        printf("%d  -----  %s", highScores[i].score,highScores[i].username);
+        printf("%d  -----  %s\n", highScores[i].score,highScores[i].username);
+        
     }
+    printf("\nGive any input to continue: "); scanf("%d",&i); system("cls");
 }
 
-void howToPlay(){}
+void howToPlay(){
+    int check;
+    printf("Welcome to the maze game.\nIn this game, you select one of the official gameboards or import one yourself to play. (it's very easy!)\n\nGameboard has 10 different elements.\n0:Paths you can go through\n1:Walls that you can't move to\nK:Black holes. If you move there, it's game over for you.\nX:It's you!\nG:The entrance of the maze.\nC:The exit of the maze.\nE,e,P,p:The elements that can be collected.\n------------\nThe elements and how to win the game\n\nTo complete and (hopefully) win the game, you should create opposite Hydrogen. To do this, you have to have only p and E in your inventory. If you have any other element, e or P, you will not be able to create the Opposite Hydrogen.\nThe more you create Opposite Hydrogen, the more points you get.\nIf you collect elements other than the neccessary ones and get to the exit, you'll still get your points, but not much.\n\n----------\nMovement\n\nIt is simple, use arrow keys to move around, and press Esc anytime to quit!\n\n\nGive any input to go back to the main menu: ");
+    scanf("%d",&check); system("cls");
+}
 
 void findX(int *cRow,int * cColumn, char **board,int row,int column){
     int i=0,j=0;
@@ -205,26 +222,48 @@ int calculateCreatedAntiMaterialNumber(char* collectedElements,int elementCount)
     *eRow = i; *eColumn = j;
 } */
 
-void newHighScore(int score,int *highScoreCount,highScore* highScores,user player){
+void newHighScore(int score, int *highScoreCount, highScore *highScores, user player) {
     int i=0,j;
-        while (i<(*highScoreCount)){
-            if(score < highScores[i].score)
-                i++;
+    if(*highScoreCount < HIGH_SCORE){
+        while(i < *highScoreCount && score <= highScores[i].score){
+            i++;
         }
-        for(j=(*highScoreCount);j>i;j--){
-            if(j==5){}
-            else{
-            highScores[j] = highScores[j-1];
+        if(i==(*highScoreCount)){
+            *highScoreCount = (*highScoreCount) + 1;
+            highScores[i].score = score;
+            strcpy(highScores[i].username,player.username);
+        }
+        else{
+            for(j=(*highScoreCount);j>i;j--){
+                highScores[j].score = highScores[j-1].score;
+                strcpy(highScores[j].username,highScores[j-1].username);
             }
+            highScores[i].score = score;
+            strcpy(highScores[i].username,player.username);
+            *highScoreCount = (*highScoreCount) + 1;
+        } 
+        printf("Congratulations, you scored a new high score at the place %d.\n",(i+1));
+    }
+    else{
+        while(i<HIGH_SCORE && score <= highScores[i].score) i++;
+        if(i==HIGH_SCORE) return;
+        else{
+            for(j=(HIGH_SCORE-1);j>i;j--){
+                highScores[j].score = highScores[j-1].score;
+                strcpy(highScores[j].username,highScores[j-1].username);
+            }
+            highScores[i].score = score;
+            strcpy(highScores[i].username,player.username);
+            printf("Congratulations, you scored a new high score at the place %d.\n",(i+1));
         }
-        strcpy(highScores[i].username,player.username);
-        highScores[i].score = score;
-        if((*highScoreCount) < 5) (*highScoreCount) = (*highScoreCount) + 1;
-        printf("Congratulations, you scored a highscore! Your score is the number %d highscore.\n",(i+1));
+    }
 
 }
 
-void manualPlay(char **board,int row, int column,int highScoreCount, user player, highScore *highScores){ //sag ok 77, sol ok 75, yukari 72, aşagi 80
+
+
+
+void manualPlay(char **board,int row, int column,int *highScoreCount, user player, highScore *highScores){ //sag ok 77, sol ok 75, yukari 72, aşagi 80
 
     int i,j;
     char collectedElements[MAX_ELEMENT],currentLocation = 'G', a;
@@ -293,7 +332,7 @@ void manualPlay(char **board,int row, int column,int highScoreCount, user player
         printf("You have managed to create %d materials.\n",createdMaterials);
         score = (200*createdMaterials) - (invalid * 10) - (moveCount * 2);
         printf("Your score: %d\n",score);
-        newHighScore(score,&highScoreCount,highScores,player);
+        newHighScore(score,highScoreCount,highScores,player);
     }
     else{
         score=0;
@@ -302,16 +341,16 @@ void manualPlay(char **board,int row, int column,int highScoreCount, user player
 }
 void autoPlay(){}
 
-void play(user player, highScore *highScores,int highScoreCount){
+void play(user player, highScore *highScores,int *highScoreCount){
     int choice,row,column,i,game=1;
     char **board, fileName[LENGTH];
     while(game==1){
     do{
-    printf("Do you want to play in one of the official boards, or import one?\n1-Official board\t2-Import : ");
-    scanf("%d",&choice);
+    printf("Do you want to select one of the 5 official boards to play, or import a gameboard?\n1-Official board\t2-Import : ");
+    scanf("%d",&choice); system("cls");
     while(choice < 1 || choice > 2){
         printf("Please give a valid input.\n1-Official board\t2-Import :");
-        scanf("%d",&choice);
+        scanf("%d",&choice); system("cls");
     }
     switch(choice){
         case 1:
@@ -331,7 +370,7 @@ void play(user player, highScore *highScores,int highScoreCount){
         do{
             printf("Your choice: "); scanf("%d",&boardChoice);
             if(boardChoice < 1 || boardChoice > 5) printf("Please provide a valid input.\n\n");
-        }while(boardChoice < 1 || boardChoice > 5); printf("Selected map %d.\n",boardChoice);
+        }while(boardChoice < 1 || boardChoice > 5); printf("Selected map %d. Please wait...\n",boardChoice); sleep(1); system("cls");
 
         switch (boardChoice){
             case 1:
@@ -350,23 +389,25 @@ void play(user player, highScore *highScores,int highScoreCount){
             board = readMatrix("map5.txt",&row,&column);
             break;
         }
+
+        break;
         case 2:
         printf("To create a game board, simply write the board elements like they're displayed normally without any space between in a .txt file, and place the file in the same folder as the game's .exe file.\nThe name of the .txt file you created: ");
-        scanf(" %s",fileName);
+        scanf(" %s",fileName); system("cls");
         board = readMatrix(fileName,&row,&column);
     }
     }while(board == NULL);
-    printf("\n\n1-Manual Play\n2-Auto Play(unavailable)\n");
-    scanf("%d",&choice);
+    printf("\n\n1-Manual Play\n2-Auto Play(unavailable)\n"); 
+    scanf("%d",&choice); system("cls");
     while(choice != 1 && choice != 2){
         printf("Invalid input. Please provide a valid one. 1 for manual play, 2 for auto play(unavailable): ");
-        scanf("%d",&choice);
+        scanf("%d",&choice); system("cls");
     }
     switch(choice){
         case 1:
         manualPlay(board,row,column,highScoreCount,player,highScores);
         printf("If you want to play again, enter 1. Otherwise, enter any input else: ");
-        scanf("%d",&game);
+        scanf("%d",&game); system("cls");
         
         break;
         case 2:
@@ -382,8 +423,9 @@ void play(user player, highScore *highScores,int highScoreCount){
 
 
 int main(){
-    int i,decision, userCount=0,totalUsers=0,loggedIn,highScoreCount;
-    user *users, currentPlayer; highScore highScores[HIGH_SCORE];
+    int i,decision, userCount=0,totalUsers=0,loggedIn,highScoreCount=0;
+    user *users, currentPlayer; highScore *highScores;
+    highScores = (highScore*) calloc(HIGH_SCORE,sizeof(highScore));
     users = (user*) malloc(MAX_USER * sizeof(user));
     // FILE *userFile = fopen("users.bin", "rb+");
 
@@ -419,7 +461,7 @@ int main(){
         case 2:
         howToPlay();break;
         case 3:
-        play(currentPlayer,highScores,highScoreCount);
+        play(currentPlayer,highScores,&highScoreCount);
         
         break;
     }
@@ -432,6 +474,7 @@ int main(){
 
     // printf("%d",totalUsers);
     saveNewUsers(users,userCount,totalUsers);
+    saveHighScores(highScores,highScoreCount);
     printf("Please give any input to close the program: "); scanf("%d",&decision);
     return 0;
 }

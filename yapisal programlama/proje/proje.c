@@ -97,7 +97,7 @@ void saveHighScores(highScore *highScores,int highScoreCount){
 
 int mainMenu(){
     int decision;
-    printf("n---------Main Menu---------\n\n"); 
+    printf("---------Main Menu---------\n\n"); 
     do{
     printf("1-High Scores\n2-How to play\n3-Play\n4-Exit: ");
     scanf("%d",&decision);
@@ -164,7 +164,7 @@ void showHighScores(highScore *highScores, int highScoreCount){
 
 void howToPlay(){
     int check;
-    printf("Welcome to the maze game.\nIn this game, you select one of the official gameboards or import one yourself to play. (it's very easy!)\n\nGameboard has 10 different elements.\n0:Paths you can go through\n1:Walls that you can't move to\nK:Black holes. If you move there, it's game over for you.\nX:It's you!\nG:The entrance of the maze.\nC:The exit of the maze.\nE,e,P,p:The elements that can be collected.\n------------\nThe elements and how to win the game\n\nTo complete and (hopefully) win the game, you should create opposite Hydrogen. To do this, you have to have only p and E in your inventory. If you have any other element, e or P, you will not be able to create the Opposite Hydrogen.\nThe more you create Opposite Hydrogen, the more points you get.\nIf you collect elements other than the neccessary ones and get to the exit, you'll still get your points, but not much.\n\n----------\nMovement\n\nIt is simple, use arrow keys to move around, and press Esc anytime to quit!\n\n\nGive any input to go back to the main menu: ");
+    printf("Welcome to the maze game.\nIn this game, you select one of the official gameboards or import one yourself to play. (it's very easy!)\n\nGameboard has 10 different elements.\n0:Paths you can go through\n1:Walls that you can't move to\nK:Black holes. If you move there, it's game over for you.\nX:It's you!\nG:The entrance of the maze.\nC:The exit of the maze.\nE,e,P,p:The elements that can be collected.\n------------\nThe elements and how to win the game\n\nTo complete and (hopefully) win the game, you should create opposite Hydrogen. To do this, you have to have only p and E in your inventory. If you have any other element, e or P, they will eliminate their opposite element, meaning you'll be able to created one less Opposite Hydrogen, making you lose 200 valuable points.\nThe more you create Opposite Hydrogen, the more points you get.\nIf you collect elements other than the neccessary ones and get to the exit, you'll still get your points, but not much.\n\n----------\nMovement\n\nIt is simple, use arrow keys to move around, and press Esc anytime to quit!\n\n\nGive any input to go back to the main menu: ");
     scanf("%d",&check); system("cls");
 }
 
@@ -193,19 +193,16 @@ void prepareForNextMove(char **board,char *currentLocation,int cRow,int cColumn,
 }
 
 int calculateCreatedAntiMaterialNumber(char* collectedElements,int elementCount){
-    int i=0,pCount=0,Ecount=0,created=0;
-    while(i<elementCount){
+    int i,pCount=0,Ecount=0,created=0;
+    for(i=0;i<elementCount;i++){
         if(collectedElements[i] == 'p') pCount++;
-        else if(collectedElements[i] == 'E') Ecount++;
-        else{
-            printf("You have to have only p or E to win the game!\n");
-            return 0;
-        }
-        i++;
-
+        else if(collectedElements[i] == 'E' ) Ecount++;
+        else if(collectedElements[i] == 'P') pCount--;
+        else if(collectedElements[i] == 'e') Ecount--;
     }
     if(pCount < Ecount) created = pCount;
     else created=Ecount;
+    if (created < 0) created = 0;
     return created;
 
 }

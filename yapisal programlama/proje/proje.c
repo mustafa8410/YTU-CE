@@ -24,7 +24,7 @@ typedef struct{
     char username[LENGTH];
 }highScore;
 
-void importUsers(int *userCount, user *users){
+void importUsers(int *userCount, user *users){ //import users from the file
     FILE *userFile = fopen("users.bin", "ab+");
     while(fread(&users[(*userCount)],sizeof(user),1,userFile)){
         
@@ -33,7 +33,7 @@ void importUsers(int *userCount, user *users){
     fclose(userFile);
 }
 
-void importHighScores(highScore *highScores,int *highScoreCount){
+void importHighScores(highScore *highScores,int *highScoreCount){ //import highscores from the file
     FILE *scoreFile = fopen("highScores.bin","rb");
     int count=0,i;
     if(scoreFile == NULL) return;
@@ -46,7 +46,7 @@ void importHighScores(highScore *highScores,int *highScoreCount){
 }
 
 
-int login(user *users, int totalUsers, user *currentPlayer){
+int login(user *users, int totalUsers, user *currentPlayer){ //scans username and password, searches for these values accross the current users. if it matches, lets the player in to the game.
     char username[LENGTH];
     char password[LENGTH];
     int i=0, flag=0;
@@ -64,7 +64,7 @@ int login(user *users, int totalUsers, user *currentPlayer){
     return flag;
 }
 
-void signUp(int *totalUsers, user *users){
+void signUp(int *totalUsers, user *users){ //creates a new account.
     if(*totalUsers < MAX_USER){
         user new;
         printf("Note that every data field should have at most 20 characters.\n");
@@ -78,7 +78,7 @@ void signUp(int *totalUsers, user *users){
 
 }
 
-void saveNewUsers(user *users, int userCount,int totalUsers){
+void saveNewUsers(user *users, int userCount,int totalUsers){ //when the program is closing, it saves all the new users that are created.
     int i;
     FILE *userFile = fopen("users.bin","ab");
     for(i=userCount;i<totalUsers;i++){
@@ -87,7 +87,7 @@ void saveNewUsers(user *users, int userCount,int totalUsers){
     fclose(userFile);
 }
 
-void saveHighScores(highScore *highScores,int highScoreCount){
+void saveHighScores(highScore *highScores,int highScoreCount){ //saves the current situation of highscores table to a file.
     FILE *scoreFile = fopen("highScores.bin","wb"); int i;
     for(i=0;i<highScoreCount;i++){
         fwrite(&highScores[i],sizeof(highScore),1,scoreFile);
@@ -95,7 +95,7 @@ void saveHighScores(highScore *highScores,int highScoreCount){
     fclose(scoreFile);
 }
 
-int mainMenu(){
+int mainMenu(){ //main menu, takes the decision of the player and returns it
     int decision;
     printf("---------Main Menu---------\n\n"); 
     do{
@@ -107,7 +107,7 @@ int mainMenu(){
     return decision;
 }
 
-char** readMatrix(char *fileName,int* r, int* c){
+char** readMatrix(char *fileName,int* r, int* c){ //reads the matrix from the file
     FILE *file = fopen(fileName,"r");
     *r = 0; *c = 0;
     char buff[MAX_BOARD_SIZE];
@@ -136,7 +136,7 @@ char** readMatrix(char *fileName,int* r, int* c){
     return matrix;
 }
 
-void printMatrix(char** matrix,int row,int column){
+void printMatrix(char** matrix,int row,int column){ //prints the current board
     int i,j,k;
     for(i=0;i<row;i++){
         for(k=0;k<column-1;k++) printf("----");
@@ -152,7 +152,7 @@ void printMatrix(char** matrix,int row,int column){
 
 
 
-void showHighScores(highScore *highScores, int highScoreCount){
+void showHighScores(highScore *highScores, int highScoreCount){ //prints out the highscores to the screen
     int i;
     printf("There are %d highscores.\n\n",highScoreCount);
     for(i=0;i<highScoreCount;i++){
@@ -162,13 +162,13 @@ void showHighScores(highScore *highScores, int highScoreCount){
     printf("\nGive any input to continue: "); scanf("%d",&i); system("cls");
 }
 
-void howToPlay(){
+void howToPlay(){ //gives detailed informatipn about the game
     int check;
     printf("Welcome to the maze game.\nIn this game, you select one of the official gameboards or import one yourself to play. (it's very easy!)\n\nGameboard has 10 different elements.\n0:Paths you can go through\n1:Walls that you can't move to\nK:Black holes. If you move there, it's game over for you.\nX:It's you!\nG:The entrance of the maze.\nC:The exit of the maze.\nE,e,P,p:The elements that can be collected.\n------------\nThe elements and how to win the game\n\nTo complete and (hopefully) win the game, you should create opposite Hydrogen. To do this, you have to have only p and E in your inventory. If you have any other element, e or P, they will eliminate their opposite element, meaning you'll be able to created one less Opposite Hydrogen, making you lose 200 valuable points.\nThe more you create Opposite Hydrogen, the more points you get.\nIf you collect elements other than the neccessary ones and get to the exit, you'll still get your points, but not much.\n\n----------\nMovement\n\nIt is simple, use arrow keys to move around, and press Esc anytime to quit!\n\n\nGive any input to go back to the main menu: ");
     scanf("%d",&check); system("cls");
 }
 
-void findX(int *cRow,int * cColumn, char **board,int row,int column){
+void findX(int *cRow,int * cColumn, char **board,int row,int column){ //finds the position of X a.k.a. player on the board at the start of the game
     int i=0,j=0;
     *cRow = -1; *cColumn = -1;
     while(i < row){
@@ -183,7 +183,7 @@ void findX(int *cRow,int * cColumn, char **board,int row,int column){
     }
 }
 
-void prepareForNextMove(char **board,char *currentLocation,int cRow,int cColumn, char* collectedElements,int *elementCount){
+void prepareForNextMove(char **board,char *currentLocation,int cRow,int cColumn, char* collectedElements,int *elementCount){ //prepares for the next move, updates the collected elements and replaces X
     board[cRow][cColumn] = 'X';
     if((*currentLocation) != '0' && (*currentLocation) != 'G' && (*currentLocation) != 'C' && (*currentLocation) != 'K' ){
         collectedElements[*elementCount] = *currentLocation;
@@ -192,7 +192,7 @@ void prepareForNextMove(char **board,char *currentLocation,int cRow,int cColumn,
     }
 }
 
-int calculateCreatedAntiMaterialNumber(char* collectedElements,int elementCount){
+int calculateCreatedAntiMaterialNumber(char* collectedElements,int elementCount){ //at the end of the game, calculates the number of Opposite Hydrogen number the player created
     int i,pCount=0,Ecount=0,created=0;
     for(i=0;i<elementCount;i++){
         if(collectedElements[i] == 'p') pCount++;
@@ -219,7 +219,7 @@ int calculateCreatedAntiMaterialNumber(char* collectedElements,int elementCount)
     *eRow = i; *eColumn = j;
 } */
 
-void newHighScore(int score, int *highScoreCount, highScore *highScores, user player) {
+void newHighScore(int score, int *highScoreCount, highScore *highScores, user player) { //checks if the score is a highscore, and if it is, places it to the correct position
     int i=0,j;
     if(*highScoreCount < HIGH_SCORE){
         while(i < *highScoreCount && score <= highScores[i].score){
@@ -260,8 +260,8 @@ void newHighScore(int score, int *highScoreCount, highScore *highScores, user pl
 
 
 
-void manualPlay(char **board,int row, int column,int *highScoreCount, user player, highScore *highScores){ //sag ok 77, sol ok 75, yukari 72, aşagi 80
-
+void manualPlay(char **board,int row, int column,int *highScoreCount, user player, highScore *highScores){ //sag ok 77, sol ok 75, yukari 72, aşagi 80 
+	//manual play. player moves with arrows. if the player's current position is on K or C, the game ends and the program calculates the score and calls some of the functions above.
     int i,j;
     char collectedElements[MAX_ELEMENT],currentLocation = 'G', a;
     int score, currentRow, currentColumn, elementCount=0, moveCount=0,invalid=0,createdMaterials;   //int exitRow,exitColumn;
@@ -336,9 +336,11 @@ void manualPlay(char **board,int row, int column,int *highScoreCount, user playe
         printf("You've entered into a black hole and lost.\n");
     }
 }
-void autoPlay(){}
+void autoPlay(){} //actually, i had an idea for this but couldn't find the time to do it. i was planning to calculate the nearest p or E, and then use path finding recursive alghoritms to reach it.
+//of course, path would avoid C, K, 1, P and e's in the process. when there are no p's or E's anymore, it would move to the exit.
+//i'll code this in the semester break.
 
-void play(user player, highScore *highScores,int *highScoreCount){
+void play(user player, highScore *highScores,int *highScoreCount){ //starting the game. player chooses from one of the boards or imports one. then selects manual or auto play.
     int choice,row,column,i,game=1;
     char **board, fileName[LENGTH];
     while(game==1){
@@ -472,6 +474,6 @@ int main(){
     // printf("%d",totalUsers);
     saveNewUsers(users,userCount,totalUsers);
     saveHighScores(highScores,highScoreCount);
-    printf("Please give any input to close the program: "); scanf("%d",&decision);
+    printf("Please give any input to close the program: "); scanf("%d",&decision); //i did this to check some stuff while coding, and it fits good so why remove it?
     return 0;
 }

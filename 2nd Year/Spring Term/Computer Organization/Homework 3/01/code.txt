@@ -1,0 +1,25 @@
+addi s2, zero, 0
+addi s3, zero, 80
+addi s4, zero, 160
+addi t2, zero, 80
+Loop:
+	beq s2, t2, done
+  lw t0, 0(s2)
+  lw t1, 0(s3)
+  add t3, t1, t1 
+  add t3, t3, t1 
+  add t1, t1, t3 
+  add t4, s4, t1
+  sw t0, 0(t4)
+  addi s2, s2, 4
+  addi s3, s3, 4
+  beq zero, zero, Loop
+done:
+  addi t1, s4, 80
+  Print:
+    beq s4, t1, printdone
+    lw t0, 0(s4)
+    addi s4, s4, 4
+    beq zero, zero, Print
+  printdone:
+

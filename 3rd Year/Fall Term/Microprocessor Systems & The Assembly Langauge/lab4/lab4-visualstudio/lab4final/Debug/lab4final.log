@@ -1,0 +1,9 @@
+﻿  22011101.cpp
+C:\Users\Mustafa\Desktop\okul\assembly\lab4\lab4-visualstudio\lab4-visualstudio\22011101.cpp(158,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Mustafa\Desktop\okul\assembly\lab4\lab4-visualstudio\lab4-visualstudio\22011101.cpp(159,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Mustafa\Desktop\okul\assembly\lab4\lab4-visualstudio\lab4-visualstudio\22011101.cpp(178,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Mustafa\Desktop\okul\assembly\lab4\lab4-visualstudio\lab4-visualstudio\22011101.cpp(179,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Mustafa\Desktop\okul\assembly\lab4\lab4-visualstudio\lab4-visualstudio\22011101.cpp(199,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Mustafa\Desktop\okul\assembly\lab4\lab4-visualstudio\lab4-visualstudio\22011101.cpp(200,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Mustafa\Desktop\okul\assembly\lab4\lab4-visualstudio\lab4-visualstudio\22011101.cpp(226,19): warning C4018: '<': signed/unsigned mismatch
+  lab4final.vcxproj -> C:\Users\Mustafa\Desktop\okul\assembly\lab4\lab4-visualstudio\lab4-visualstudio\Debug\lab4final.exe

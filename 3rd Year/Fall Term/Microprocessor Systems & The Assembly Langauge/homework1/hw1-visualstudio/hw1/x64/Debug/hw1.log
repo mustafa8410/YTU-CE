@@ -1,0 +1,108 @@
+﻿  main.cpp
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(79,5): error C4235: nonstandard extension used: '__asm' keyword not supported on this architecture
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(81,9): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(81,13): error C2146: syntax error: missing ';' before identifier 'DL'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(81,13): error C2065: 'DL': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(82,9): error C2146: syntax error: missing ';' before identifier 'MOV'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(82,9): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(82,13): error C2146: syntax error: missing ';' before identifier 'EBX'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(82,13): error C2065: 'EBX': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(83,9): error C2146: syntax error: missing ';' before identifier 'MOV'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(83,9): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(83,13): error C2146: syntax error: missing ';' before identifier 'ESI'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(83,13): error C2065: 'ESI': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(84,9): error C2146: syntax error: missing ';' before identifier 'MOV'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(84,9): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(84,13): error C2146: syntax error: missing ';' before identifier 'ECX'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(84,13): error C2065: 'ECX': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(85,9): error C2146: syntax error: missing ';' before identifier 'L1'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(85,13): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(85,17): error C2146: syntax error: missing ';' before identifier 'AL'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(85,17): error C2065: 'AL': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(86,13): error C2760: syntax error: 'SUB' was unexpected here; expected '{'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(86,17): error C2065: 'AL': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(86,21): error C2065: 'DL': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(87,13): error C2146: syntax error: missing ',' before identifier 'MOV'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(135,5): error C4235: nonstandard extension used: '__asm' keyword not supported on this architecture
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(137,9): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(137,13): error C2146: syntax error: missing ';' before identifier 'EDI'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(137,13): error C2065: 'EDI': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(138,9): error C2146: syntax error: missing ';' before identifier 'MOV'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(138,9): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(138,13): error C2146: syntax error: missing ';' before identifier 'EBX'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(138,13): error C2065: 'EBX': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(139,9): error C2146: syntax error: missing ';' before identifier 'MOV'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(139,9): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(139,13): error C2146: syntax error: missing ';' before identifier 'ECX'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(139,13): error C2065: 'ECX': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(141,9): error C2146: syntax error: missing ';' before identifier 'L2'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(141,13): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(141,17): error C2146: syntax error: missing ';' before identifier 'DL'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(141,17): error C2065: 'DL': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(142,13): error C2760: syntax error: 'MOV' was unexpected here; expected '{'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(142,17): error C2065: 'EAX': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(143,13): error C2146: syntax error: missing ',' before identifier 'MUL'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(156,5): error C4235: nonstandard extension used: '__asm' keyword not supported on this architecture
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(158,9): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(158,13): error C2146: syntax error: missing ';' before identifier 'EBX'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(158,13): error C2065: 'EBX': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(159,9): error C2146: syntax error: missing ';' before identifier 'MOV'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(159,9): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(159,13): error C2146: syntax error: missing ';' before identifier 'EDI'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(159,13): error C2065: 'EDI': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(160,9): error C2146: syntax error: missing ';' before identifier 'MOV'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(160,9): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(160,13): error C2146: syntax error: missing ';' before identifier 'ECX'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(160,13): error C2065: 'ECX': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(162,9): error C2146: syntax error: missing ';' before identifier 'XOR'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(162,9): error C2065: 'XOR': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(162,13): error C2146: syntax error: missing ';' before identifier 'EAX'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(162,13): error C2065: 'EAX': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(162,18): error C2065: 'EAX': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(163,9): error C2146: syntax error: missing ';' before identifier 'XOR'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(163,9): error C2065: 'XOR': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(163,13): error C2146: syntax error: missing ';' before identifier 'ESI'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(163,13): error C2065: 'ESI': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(163,18): error C2065: 'ESI': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(164,9): error C2146: syntax error: missing ';' before identifier 'DEC'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(164,9): error C2065: 'DEC': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(164,13): error C2146: syntax error: missing ';' before identifier 'ECX'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(164,13): error C2065: 'ECX': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(166,9): error C2146: syntax error: missing ';' before identifier 'MOV'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(166,9): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(166,13): error C2146: syntax error: missing ';' before identifier 'AL'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(166,13): error C2065: 'AL': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(167,9): error C2760: syntax error: 'MOV' was unexpected here; expected '{'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(167,18): error C2760: syntax error: ',' was unexpected here; expected '{'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(167,20): error C2065: 'AL': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(168,9): error C2146: syntax error: missing ',' before identifier 'INC'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(201,5): error C4235: nonstandard extension used: '__asm' keyword not supported on this architecture
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(203,9): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(203,13): error C2146: syntax error: missing ';' before identifier 'ECX'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(203,13): error C2065: 'ECX': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(204,9): error C2146: syntax error: missing ';' before identifier 'MOV'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(204,9): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(204,13): error C2146: syntax error: missing ';' before identifier 'EBX'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(204,13): error C2065: 'EBX': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(205,9): error C2146: syntax error: missing ';' before identifier 'XOR'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(205,9): error C2065: 'XOR': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(205,13): error C2146: syntax error: missing ';' before identifier 'ESI'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(205,13): error C2065: 'ESI': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(205,18): error C2065: 'ESI': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(207,9): error C2146: syntax error: missing ';' before identifier 'L4'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(207,13): error C2065: 'XOR': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(207,17): error C2146: syntax error: missing ';' before identifier 'EDX'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(207,17): error C2065: 'EDX': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(207,22): error C2065: 'EDX': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(208,13): error C2146: syntax error: missing ';' before identifier 'MOV'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(208,13): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(208,17): error C2146: syntax error: missing ';' before identifier 'DL'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(208,17): error C2065: 'DL': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(208,26): error C2760: syntax error: '+' was unexpected here; expected ','
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(208,28): error C2065: 'ESI': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(208,31): error C2059: syntax error: ']'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(228,5): error C4235: nonstandard extension used: '__asm' keyword not supported on this architecture
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(230,9): error C2065: 'MOV': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(230,13): error C2146: syntax error: missing ';' before identifier 'ECX'
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(230,13): error C2065: 'ECX': undeclared identifier
+C:\Users\Mustafa\Downloads\hw1-visualstudio\main.cpp(230,13): error C1003: error count exceeds 100; stopping compilation
